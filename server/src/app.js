@@ -15,6 +15,12 @@ const PORT = process.env.PORT || 3000;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const publicDir = path.join(process.cwd(), "public");
 
+//its imp that you dont parse the webhook event data, it should be in the raw format 
+app.use(
+  "/api/webhooks/clerk",
+  express.raw({ type: "application/json" }),
+  clerkWebhook,
+);
 app.use(express.json());
 app.use(
   cors({
