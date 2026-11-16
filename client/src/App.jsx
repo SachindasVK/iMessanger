@@ -1,26 +1,33 @@
-import { useState } from "react";
-import heroImg from "./assets/hero.png";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/react";
-import "./App.css";
+import { WallpaperProvider } from "./context/WallpaperContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import { Routes, Route, Navigate } from "react-router";
+import ChatPage from "./pages/ChatPage";
+import AuthPage from "./pages/AuthPage";
+import { useAuth } from "@clerk/react";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { isSignedIn, isLoaded } = useAuth();
 
+  if (!isLoaded) return <p>Loading...</p> // todo make this a better component
   return (
-    <div>
-      <h1>MY App</h1>
-      <header>
-        <Show when="signed-out">
-          <SignInButton mode="modal" />
-          <SignUpButton mode="modal" />
-        </Show>
-        <Show when="signed-in">
-          <UserButton />
-        </Show>
-      </header>
-    </div>
+    <ThemeProvider>
+      <WallpaperProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              isSignedIn ? <ChatPage /> : <Navigate to={"/auth"} replace />
+            }
+          />
+          <Route
+            path="/auth"
+            element={
+              !isSignedIn ? <AuthPage /> : <Navigate to={"/chat"} replace />
+            }
+          />
+        </Routes>
+      </WallpaperProvider>
+    </ThemeProvider>
   );
 }
 
