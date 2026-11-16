@@ -37,7 +37,7 @@ function App() {
           <Route
             path="/auth"
             element={
-              !isSignedIn ? <AuthPage /> : <Navigate to={"/chat"} replace />
+              !isSignedIn ? <AuthPage /> : <Navigate to={"/"} replace />
             }
           />
         </Routes>
