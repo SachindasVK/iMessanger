@@ -6,15 +6,19 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
+
     const signingSecret = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
+
     if (!signingSecret) {
       res.status(503).json({ message: "Webhook secret is not provided" });
       return;
     }
+    
     // clerk's verifier expects a web request with the raw body; express.raw gives a Buffer.
     const payload = Buffer.isBuffer(req.body)
       ? req.body.toString("utf-8")
       : String(req.body);
+
     const request = new Request("http://internal/webhooks/clerk", {
       method: "POST",
       headers: new Headers(req.headers),
@@ -22,7 +26,7 @@ router.post("/", async (req, res) => {
     });
 
     const evt = await verifyWebhook(request, { signingSecret });
-    v;
+
     if (evt.type === "user.created" || evt.type === "user.updated") {
       const user = evt.data;
 
@@ -35,6 +39,7 @@ router.post("/", async (req, res) => {
         [user.first_name, user.last_name].filter(Boolean).join(" ") ||
         user.username ||
         email?.split("@")[0];
+
       await User.findOneAndUpdate(
         { clerkId: user.id },
         { clerkId: user.id, email, fullName, profilePic: user.image_url },
@@ -45,7 +50,9 @@ router.post("/", async (req, res) => {
     if (evt.type === "user.deleted") {
       if (evt.data.id) await User.findOneAndDelete({ clerkId: evt.data.id });
     }
+
     res.status(200).json({ received: true });
+
   } catch (error) {
     console.error("Error in clerk webhook:", error);
     res.status(400).json({ message: "webhook verification failed" });
