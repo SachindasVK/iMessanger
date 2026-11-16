@@ -1,6 +1,7 @@
 import { hasImageKitConfig, uploadChatMedia } from "../lib/imageKit.js";
 import { getReceiverSocketId, io } from "../lib/socket.js";
 import Message from "../models/Message.js";
+import User from "../models/User.js";
 
 export const getUsersForSidebar = async (req, res) => {
   try {
@@ -35,7 +36,6 @@ export const getConversationsForSidebar = async (req, res) => {
             $cond: [
               { $eq: ["$senderId", loggedInUserId] },
               "$receiverId",
-              ,
               "$senderId",
             ],
           },
@@ -101,8 +101,11 @@ export const sendMessage = async (req, res) => {
       }
       const url = await uploadChatMedia(req.file);
 
-      if (req.file.minetype.startsWith("vidoe/")) videoUrl = url;
-      else imageUrl = url;
+      if (req.file.mimetype.startsWith("video/")) {
+        videoUrl = url;
+      } else if (req.file.mimetype.startsWith("image/")) {
+        imageUrl = url;
+      }
     }
     const newMessage = new Message({
       senderId,
@@ -114,11 +117,11 @@ export const sendMessage = async (req, res) => {
 
     await newMessage.save();
 
-    const receiverSocketId = getReceiverSocketId(receiverId)
+    const receiverSocketId = getReceiverSocketId(receiverId);
 
     if (receiverSocketId) {
       //only send the message in realtime if user is online
-      io.to(receiverSocketId).emit("newMessage",newMessage)
+      io.to(receiverSocketId).emit("newMessage", newMessage);
     }
 
     res.status(201).json(newMessage);

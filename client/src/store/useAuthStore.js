@@ -1,4 +1,3 @@
-import axios from "axios";
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import { io } from "socket.io-client";

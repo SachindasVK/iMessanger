@@ -1,4 +1,3 @@
-import React from "react";
 export const APP_NAME = "iMessanger";
 
 function AppLogo({ className = "", size = 32, alt = APP_NAME }) {
