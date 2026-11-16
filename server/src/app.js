@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import "dotenv/config";
+import 'dotenv/config'
 
 import fs from "fs";
 import path from "path";
@@ -14,7 +14,7 @@ import messageRoutes from "./routes/message.route.js";
 import { server , app} from "./lib/socket.js";
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const publicDir = path.join(process.cwd(), "public");
 
