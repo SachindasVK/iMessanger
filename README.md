@@ -33,7 +33,7 @@ iMessanger is a real-time messaging application built using the MERN stack. It e
 
 ### Backend
 - Node.js
-- Express.js 5
+- Express.js 
 - MongoDB
 - Mongoose
 - Socket.IO
