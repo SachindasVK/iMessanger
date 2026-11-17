@@ -7,8 +7,6 @@
     "build": "shx rm -rf dist && shx cp -r src dist",
     "dev": "nodemon src/app.js",
     "start": "node src/app.js",
-    "db:seed": "node src/seeds/user.seed.js"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
