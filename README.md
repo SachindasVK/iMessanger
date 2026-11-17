@@ -1,47 +1,54 @@
 # iMessanger – Real-Time Chat Application
 
-A modern real-time messaging application built using the MERN stack. iMessanger allows users to communicate through a responsive interface with real-time messaging and online presence.
+iMessanger is a real-time messaging application built using the MERN stack. It enables users to communicate through real-time messaging, share images, and see online user status.
 
-**Live Demo:** https://imessanger-xtml.onrender.com
+🌐 **Live Demo:** https://imessanger-xtml.onrender.com
 
-**GitHub Repository:** https://github.com/SachindasVK/iMessanger
+📂 **GitHub Repository:** https://github.com/SachindasVK/iMessanger
 
----
+## ✨ Features
 
-## Features
-
-- 🔐 User authentication with Clerk
-- 💬 Real-time messaging using Socket.IO
-- 🟢 Online user status
+- 🔐 Authentication and user management using Clerk
+- 💬 Real-time messaging with Socket.IO
+- 🟢 Online user presence
 - 👤 User profiles
 - 🖼️ Image sharing and uploads using ImageKit
-- ⚡ Responsive React interface
-- 🗄️ MongoDB database integration
+- ⚡ Global state management using Zustand
+- 🔔 Toast notifications
+- 📱 Responsive user interface
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-**Frontend**
-- React.js
+### Frontend
+- React 19
 - Vite
-- JavaScript
-- Tailwind CSS
+- JavaScript 
+- React Router
+- Zustand 
+- Axios
+- Tailwind 
 - HeroUI
+- Lucide React
+- React Hot Toast
 
-**Backend**
+### Backend
 - Node.js
-- Express.js
-- Socket.IO
-
-**Database & Services**
+- Express.js 5
 - MongoDB
+- Mongoose
+- Socket.IO
+- Multer
+
+### Authentication & Media
 - Clerk Authentication
 - ImageKit
 
-**Deployment**
-- Render
+### Deployment & Tools
 - Docker
+- Render
+- Git & GitHub
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
 iMessanger/
@@ -54,6 +61,7 @@ iMessanger/
 │
 ├── server/
 │   ├── src/
+│   │   └── app.js
 │   ├── package.json
 │   └── ...
 │
@@ -62,28 +70,31 @@ iMessanger/
 └── README.md
 ```
 
-## Getting Started
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js
+- npm
+- MongoDB database
+- Clerk account
+- ImageKit account
 
 ### 1. Clone the repository
 
 ```bash
 git clone https://github.com/SachindasVK/iMessanger.git
-```
-
-### 2. Navigate to the project
-
-```bash
 cd iMessanger
 ```
 
-### 3. Install frontend dependencies
+### 2. Install frontend dependencies
 
 ```bash
 cd client
 npm install
 ```
 
-### 4. Install backend dependencies
+### 3. Install backend dependencies
 
 Open another terminal:
 
@@ -92,42 +103,74 @@ cd server
 npm install
 ```
 
-### 5. Configure environment variables
+### 4. Environment Configuration
 
-Create the required `.env` files in the client and server directories.
+Create `.env` files in the client and server directories.
 
-Configure your MongoDB connection, Clerk credentials, ImageKit credentials, and frontend/backend URLs according to the environment variables used in the source code.
+Configure the required environment variables for:
 
-Never commit your private API keys or secrets.
+**Client**
+- Clerk publishable key
+- Backend API URL
 
-### 6. Run the application
+**Server**
+- MongoDB connection string
+- Clerk secret key
+- ImageKit private key
+- Frontend URL
+- Other required service credentials
 
-Start the backend and frontend using the development scripts defined in their respective `package.json` files.
+Refer to the application source code for the exact environment variable names.
 
-Frontend:
+Never commit `.env` files or expose private credentials.
+
+### 5. Run the application
+
+**Start the backend:**
 
 ```bash
+cd server
 npm run dev
 ```
 
-Backend:
+**Start the frontend:**
 
 ```bash
+cd client
 npm run dev
 ```
 
-## Deployment
+## 📦 Available Scripts
 
-The application is deployed on Render.
+### Client
 
-🌐 **Live Application:** https://imessanger-xtml.onrender.com
+| Command | Description |
+|---|---|
+| `npm run dev` | Start Vite development server |
+| `npm run build` | Create production build |
+| `npm run preview` | Preview production build |
+| `npm run lint` | Run ESLint |
 
-## Author
+### Server
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start backend with Nodemon |
+| `npm run build` | Copy source files into dist |
+| `npm start` | Start backend |
+
+## 🌍 Live Deployment
+
+The application is deployed using Render and Docker.
+
+**Live Application:** https://imessanger-xtml.onrender.com
+
+## 👨‍💻 Author
 
 **Sachin**
 
-- GitHub: https://github.com/SachindasVK
+GitHub: [SachindasVK](https://github.com/SachindasVK)
 
 ---
 
-⭐ If you find this project interesting, feel free to explore the repository and give it a star!
+⭐ If you find this project interesting, consider giving the repository a star!
