@@ -53,6 +53,7 @@ export const getConversationsForSidebar = async (req, res) => {
           as: "user",
         },
       },
+      { $match: { "user.0": { $exists: true } } },
       //   pull that profile out of the array and make it the document.
       { $replaceRoot: { newRoot: { $first: "$user" } } },
       //   hide the private clerkid field from the result.
