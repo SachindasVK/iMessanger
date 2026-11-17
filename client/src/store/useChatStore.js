@@ -88,19 +88,23 @@ export const useChatStore = create(
         }
       },
 
-      subscribeToMessages: (userId) => {
-        if (!userId) return;
-
+      subscribeToMessages: () => {
         const socket = useAuthStore.getState().socket;
         if (!socket) return;
 
         socket.off("newMessage");
         socket.on("newMessage", (newMessage) => {
           get().getConversations();
-          // if im not the receiver don't do anything just return
-          if (String(newMessage.senderId) !== String(userId)) return;
 
-          set({ messages: [...get().messages, newMessage] });
+          const activeConversationId = get().activeConversationId;
+          const isCurrentChat =
+            activeConversationId &&
+            (String(newMessage.senderId) === String(activeConversationId) ||
+              String(newMessage.receiverId) === String(activeConversationId));
+
+          if (isCurrentChat) {
+            set((state) => ({ messages: [...state.messages, newMessage] }));
+          }
         });
       },
 
@@ -136,11 +140,12 @@ export const useChatStore = create(
         return get().sendMessage({ text: messageText });
       },
 
-      sendMediaMessage: async ({ conversationId, file }) => {
+      sendMediaMessage: async ({ conversationId, file, text }) => {
         if (!conversationId || !file) return false;
 
         const formData = new FormData();
         formData.append("media", file);
+        if (text) formData.append("text", text);
 
         set({ isSendingMedia: true });
         try {

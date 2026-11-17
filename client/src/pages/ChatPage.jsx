@@ -1,8 +1,12 @@
 import { useWallpaper } from "../context/wallpaper";
 import { useChatStore } from "../store/useChatStore";
+import { useAuthStore } from "../store/useAuthStore";
 import { useSelectedConversation } from "../hooks/useSelectedConversation";
 import { useEffect } from "react";
 import ChatSidebar from "../components/chat/ChatSidebar";
+import { ChatHeader } from "../components/chat/ChatHeader";
+import { MessageList } from "../components/chat/MessageList";
+import { ChatComposer } from "../components/chat/ChatComposer";
 
 function ChatPage() {
   const { frameStyle } = useWallpaper();
@@ -13,6 +17,9 @@ function ChatPage() {
   const subscribeToMessages = useChatStore((state) => state.subscribeToMessages);
   const unsubscribeFromMessages = useChatStore((state) => state.unsubscribeFromMessages);
 
+  const onlineUsers = useAuthStore((state) => state.onlineUsers);
+  const socket = useAuthStore((state) => state.socket);
+
   const { activeConversation, activeConversationId, isLargeScreen } = useSelectedConversation();
 
   useEffect(() => {
@@ -20,15 +27,27 @@ function ChatPage() {
     getConversations();
   }, [getConversations, getUsers]);
 
+  // Refresh users list whenever online status changes (e.g. new user logs in)
+  useEffect(() => {
+    if (onlineUsers.length > 0) {
+      getUsers();
+    }
+  }, [onlineUsers, getUsers]);
+
+  // Global real-time socket subscription
+  useEffect(() => {
+    if (!socket) return;
+
+    subscribeToMessages();
+    return () => unsubscribeFromMessages();
+  }, [socket, subscribeToMessages, unsubscribeFromMessages]);
+
+  // Fetch messages when active conversation changes
   useEffect(() => {
     if (!activeConversationId) return;
 
     getMessages(activeConversationId);
-    subscribeToMessages(activeConversationId);
-
-    // cleanup
-    return () => unsubscribeFromMessages();
-  }, [getMessages, activeConversationId, subscribeToMessages, unsubscribeFromMessages]);
+  }, [getMessages, activeConversationId]);
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden p-2 sm:p-3 md:p-8" style={frameStyle}>
@@ -41,7 +60,9 @@ function ChatPage() {
           }`}
         >
           
-
+          <ChatHeader />
+          <MessageList />
+          {activeConversation ? <ChatComposer /> : null}
         </div>
       </div>
     </div>

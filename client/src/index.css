@@ -54,3 +54,55 @@
     transform: translateX(100%);
   }
 }
+
+/* ─── Scrollbar styling ─────────────────────────────────────────────────────
+   Thin, pill-shaped scrollbar that blends with both light and dark themes.
+   Falls back to overlay scrollbars on Firefox / mobile automatically.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0 0 0 / 0.18) transparent;
+}
+
+[data-theme="dark"] *,
+.dark * {
+  scrollbar-color: oklch(1 0 0 / 0.14) transparent;
+}
+
+/* WebKit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0 0 0 / 0.18);
+  border-radius: 999px;
+  transition: background 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0 0 0 / 0.32);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Dark-mode overrides */
+[data-theme="dark"] ::-webkit-scrollbar-thumb,
+.dark ::-webkit-scrollbar-thumb {
+  background: oklch(1 0 0 / 0.14);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover,
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: oklch(1 0 0 / 0.26);
+}

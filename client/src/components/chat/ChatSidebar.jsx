@@ -12,18 +12,19 @@ import { MessageSquareIcon, UsersIcon } from "lucide-react";
 import { ConversationRow } from "./ConversationRow";
 
 function mapUserForList(user, onlineUsers) {
+  const isOnline = onlineUsers.includes(String(user._id));
   return {
     conversationId: user._id,
     id: user._id,
-    name: user.fullName,
+    name: user.fullName || "User",
     avatarUrl: user.profilePic,
     initials: getInitials(user.fullName),
-    isOnline: onlineUsers.includes(user._id),
+    isOnline,
     peer: {
-      name: user.fullName,
+      name: user.fullName || "User",
       avatarUrl: user.profilePic,
       initials: getInitials(user.fullName),
-      isOnline: onlineUsers.includes(user._id),
+      isOnline,
     },
   };
 }
@@ -101,6 +102,7 @@ function ChatSidebar() {
       >
         <div className="shrink-0 border-b border-border px-3 pb-2 pt-2">
           <SearchField
+            aria-label="Search"
             fullWidth
             variant="secondary"
             className="w-full"
